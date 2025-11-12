@@ -1,0 +1,5 @@
+{
+  "name": "Xbox Game Comparator",
+  "description": "A web application that allows users to search for Xbox games and compare the official store price with a custom promotional price. It includes an admin panel for managing the game listings.",
+  "requestFramePermissions": []
+}
