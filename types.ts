@@ -5,6 +5,7 @@ export interface Game {
   name: string;
   description: string;
   cover_art: string;
+  official_price: number; // Adicionado de volta
   my_price_exclusive: number;
   my_price_parental: number;
   category: GameCategory;

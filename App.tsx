@@ -77,7 +77,14 @@ const GameOfferCard: React.FC<{ game: Game }> = ({ game }) => {
                         <p className="mt-2 text-gray-400 text-sm">{game.description}</p>
                     </div>
                     
-                    <div className="mt-6 space-y-4">
+                    <div className="mt-4 border-t border-gray-700 pt-4">
+                         <p className="text-sm text-gray-400">Preço na Loja Xbox:</p>
+                         <p className="text-2xl font-bold text-gray-500 line-through">
+                             {game.official_price > 0 ? `R$ ${game.official_price.toFixed(2).replace('.', ',')}` : 'Grátis'}
+                         </p>
+                    </div>
+
+                    <div className="mt-4 space-y-4">
                         {/* Oferta Mídia Exclusiva */}
                         <div className="bg-gray-900/50 p-4 rounded-lg border border-emerald-500/30">
                             <div className="flex justify-between items-center">
@@ -340,7 +347,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ games, onSave, onDelete
 
         const handleSubmit = (e: React.FormEvent) => {
             e.preventDefault();
-            if (!fetchedData || !fetchedData.name || !fetchedData.description || !fetchedData.category) {
+            if (!fetchedData || !fetchedData.name || !fetchedData.description || !fetchedData.category || fetchedData.official_price === undefined) {
                 alert('Por favor, busque os detalhes do jogo a partir da URL antes de salvar.');
                 return;
             }
@@ -356,6 +363,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ games, onSave, onDelete
                 name: fetchedData.name,
                 description: fetchedData.description,
                 category: fetchedData.category,
+                official_price: fetchedData.official_price,
                 cover_art: formData.cover_art,
                 my_price_exclusive: Number(formData.my_price_exclusive),
                 my_price_parental: Number(formData.my_price_parental),
@@ -397,7 +405,8 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ games, onSave, onDelete
                             <div className="bg-gray-700 p-4 rounded-md space-y-3 border border-emerald-500/50">
                                 <h4 className="font-bold text-lg text-emerald-400">Dados Encontrados:</h4>
                                 <p><strong>Nome:</strong> {fetchedData.name}</p>
-                                
+                                <p><strong>Preço Oficial Xbox:</strong> <span className="font-bold">{fetchedData.official_price !== undefined ? `R$ ${fetchedData.official_price.toFixed(2).replace('.', ',')}` : 'N/A'}</span></p>
+
                                  <div>
                                     <label className="block text-sm font-medium text-gray-300 mt-2">2. URL da Imagem da Capa (Verifique ou corrija)</label>
                                     <input 
@@ -514,6 +523,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ games, onSave, onDelete
                         <tr>
                             <th scope="col" className="px-6 py-3">Capa</th>
                             <th scope="col" className="px-6 py-3">Nome</th>
+                            <th scope="col" className="px-6 py-3">Preço Oficial</th>
                             <th scope="col" className="px-6 py-3">Preço Exclusiva</th>
                             <th scope="col" className="px-6 py-3">Preço Parental</th>
                             <th scope="col" className="px-6 py-3 text-right">Ações</th>
@@ -524,6 +534,7 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ games, onSave, onDelete
                             <tr key={game.id} className="bg-gray-800 border-b border-gray-700 hover:bg-gray-700/50">
                                 <td className="px-6 py-4"><img src={game.cover_art} alt={game.name} className="w-10 h-14 object-cover rounded" /></td>
                                 <th scope="row" className="px-6 py-4 font-medium text-white whitespace-nowrap">{game.name}</th>
+                                <td className="px-6 py-4 text-gray-400">{game.official_price > 0 ? `R$ ${game.official_price.toFixed(2).replace('.', ',')}` : 'Grátis'}</td>
                                 <td className="px-6 py-4 font-bold text-emerald-400">R$ {game.my_price_exclusive.toFixed(2).replace('.', ',')}</td>
                                 <td className="px-6 py-4 font-bold text-blue-400">R$ {game.my_price_parental.toFixed(2).replace('.', ',')}</td>
                                 <td className="px-6 py-4 text-right">
